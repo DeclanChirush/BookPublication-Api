@@ -25,5 +25,15 @@ public class BookApi {
         return bookAdapter.saveBook(bookDto);
     }
 
+    //Get a book
+    public Book getBook(Long id){
+        return bookAdapter.getBook(id);
+    }
+
+    //Update a book
+    public String updateBookById(Long id, BookDto bookDto){
+        return bookAdapter.updateBookById(id, bookDto);
+    }
+
 
 }
