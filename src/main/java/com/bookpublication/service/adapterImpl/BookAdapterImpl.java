@@ -31,6 +31,11 @@ public class BookAdapterImpl implements BookAdapter {
     @Override
     public String saveBook(BookDto bookDto) {
 
+        //check if isbn exists
+        if (bookRepository.existsByIsbn(bookDto.getIsbn())) {
+            return "Book with isbn " + bookDto.getIsbn() + " already exists";
+        }
+
         //Extract the bookDto data and save it in the book entity
         Book book = new Book();
         book.setIsbn(bookDto.getIsbn());
@@ -54,12 +59,42 @@ public class BookAdapterImpl implements BookAdapter {
 
     @Override
     public Book getBook(Long id) {
-        return null;
+        //Retrieve the book entity using the id from the request
+        Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
+
+        return book;
     }
 
     @Override
     public String updateBookById(Long id, BookDto bookDto) {
-        return null;
+
+        //check if isbn exists
+        if (bookRepository.existsByIsbn(bookDto.getIsbn())) {
+            return "Book with isbn " + bookDto.getIsbn() + " already exists";
+        }
+
+        //Retrieve the book entity using the id from the request
+        Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
+
+        //Extract the bookDto data and save it in the book entity
+        book.setIsbn(bookDto.getIsbn());
+        book.setTitle(bookDto.getTitle());
+        book.setCategory(bookDto.getCategory());
+
+        //Retrieve the Author entity using the authorId from the request
+        Author author = authorRepository.findById(bookDto.getAuthorId()).orElseThrow(() -> new RuntimeException("Author not found"));
+
+        book.setAuthor(author);
+
+        try {
+            //Save the book entity
+            bookRepository.save(book);
+        } catch (Exception e) {
+            return "Error updating book";
+        }
+
+        return "Book updated successfully";
+
     }
 
     @Override
