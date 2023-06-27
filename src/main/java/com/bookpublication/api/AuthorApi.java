@@ -25,14 +25,7 @@ public class AuthorApi{
 
     //Create a new author
     public String saveAuthor(AuthorDto authorDto){
-        //Set authorDto to author
-        Author author = new Author();
-        author.setFirstName(authorDto.getFirstName());
-        author.setLastName(authorDto.getLastName());
-        author.setEmail(authorDto.getEmail());
-        author.setContactNumber(authorDto.getContactNumber());
-
-        return authorAdapter.saveAuthor(author);
+        return authorAdapter.saveAuthor(authorDto);
     }
 
     //Get author by id
@@ -42,14 +35,7 @@ public class AuthorApi{
 
     //Update author by id
     public String updateAuthorById(Long id, AuthorDto authorDto){
-        //Set authorDto to author
-        Author author = new Author();
-        author.setFirstName(authorDto.getFirstName());
-        author.setLastName(authorDto.getLastName());
-        author.setEmail(authorDto.getEmail());
-        author.setContactNumber(authorDto.getContactNumber());
-
-        return authorAdapter.updateAuthorById(id, author);
+        return authorAdapter.updateAuthorById(id, authorDto);
     }
 
     //Delete author by id
