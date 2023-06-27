@@ -29,4 +29,16 @@ public class BookController {
     public ResponseEntity saveBook(@RequestBody BookDto bookDto) {
         return ResponseEntity.ok(bookApi.saveBook(bookDto));
     }
+
+    //Get book by id
+    @GetMapping("/getBookById/{id}")
+    public ResponseEntity getBookById(@PathVariable Long id) {
+        return ResponseEntity.ok(bookApi.getBook(id));
+    }
+
+    //Update book by id
+    @PutMapping("/updateBookById/{id}")
+    public ResponseEntity updateBookById(@PathVariable Long id, @RequestBody BookDto bookDto) {
+        return ResponseEntity.ok(bookApi.updateBookById(id, bookDto));
+    }
 }
