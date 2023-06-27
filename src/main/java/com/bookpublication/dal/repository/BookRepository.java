@@ -13,4 +13,5 @@ import org.springframework.stereotype.Repository;
 public interface BookRepository extends JpaRepository<Book, Long> {
     boolean existsByIsbn(String isbn);
     Book findByIsbn(String isbn);
+    void deleteByAuthorId(Long id);
 }
