@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * This class is the BookAdapterImpl class
@@ -19,6 +20,8 @@ import java.util.List;
 @Component
 public class BookAdapterImpl implements BookAdapter {
 
+    //Initialize logger
+    private static final Logger logger = Logger.getLogger(AuthorAdapterImpl.class.getName());
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
 
@@ -33,6 +36,7 @@ public class BookAdapterImpl implements BookAdapter {
 
         //check if isbn exists
         if (bookRepository.existsByIsbn(bookDto.getIsbn())) {
+            logger.severe("Book with isbn " + bookDto.getIsbn() + " already exists");
             return "Book with isbn " + bookDto.getIsbn() + " already exists";
         }
 
@@ -50,7 +54,9 @@ public class BookAdapterImpl implements BookAdapter {
         try {
             //Save the book entity
             bookRepository.save(book);
+            logger.info("Book saved successfully");
         } catch (Exception e) {
+            logger.severe("Error saving book : " + e.getMessage());
             return "Error saving book";
         }
 
@@ -59,10 +65,14 @@ public class BookAdapterImpl implements BookAdapter {
 
     @Override
     public Book getBook(Long id) {
-        //Retrieve the book entity using the id from the request
-        Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
-
-        return book;
+        //If book is not found, show error message
+       if(bookRepository.existsById(id)){
+           logger.info("Book found");
+           return bookRepository.findById(id).get();
+         }else{
+           logger.severe("Book not found");
+           throw new RuntimeException("Book not found");
+       }
     }
 
     @Override
@@ -70,6 +80,7 @@ public class BookAdapterImpl implements BookAdapter {
 
         //check if isbn exists
         if (bookRepository.existsByIsbn(bookDto.getIsbn())) {
+            logger.severe("Book with isbn " + bookDto.getIsbn() + " already exists");
             return "Book with isbn " + bookDto.getIsbn() + " already exists";
         }
 
@@ -89,7 +100,9 @@ public class BookAdapterImpl implements BookAdapter {
         try {
             //Save the book entity
             bookRepository.save(book);
+            logger.info("Book updated successfully");
         } catch (Exception e) {
+            logger.severe("Error updating book : " + e.getMessage());
             return "Error updating book";
         }
 
@@ -102,14 +115,13 @@ public class BookAdapterImpl implements BookAdapter {
 
         //check if book exists
         if (!bookRepository.existsById(id)) {
+            logger.severe("Book not found");
             return "Book not found";
         }else{
-            //Retrieve the book entity using the id from the request
-            Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
-
             try {
                 //Delete the book entity
-                bookRepository.delete(book);
+                bookRepository.deleteById(id);
+                logger.info("Book deleted successfully");
             } catch (Exception e) {
                 return "Error deleting book";
             }
@@ -119,6 +131,7 @@ public class BookAdapterImpl implements BookAdapter {
 
     @Override
     public List<Book> getAllBooks() {
+        logger.info("Books retrieved successfully");
         return bookRepository.findAll();
     }
 }
