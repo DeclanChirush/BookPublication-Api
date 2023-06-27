@@ -2,6 +2,7 @@ package com.bookpublication.service.adapterImpl;
 
 import com.bookpublication.dal.model.Author;
 import com.bookpublication.dal.repository.AuthorRepository;
+import com.bookpublication.dto.AuthorDto;
 import com.bookpublication.service.adapter.AuthorAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,36 +28,41 @@ public class AuthorAdapterImpl implements AuthorAdapter {
     }
 
     @Override
-    public String saveAuthor(Author author) {
+    public String saveAuthor(AuthorDto authorDto) {
 
-        //Check if author is null
-        if (author == null) {
+        //Check if authorDto is null
+        if (authorDto == null) {
             logger.severe("Author should not be null");
             return "Author should not be null";
+        }
+
+        //Set authorDto to author
+        Author author = new Author();
+        author.setFirstName(authorDto.getFirstName());
+        author.setLastName(authorDto.getLastName());
+        author.setEmail(authorDto.getEmail());
+        author.setContactNumber(authorDto.getContactNumber());
+
+        //Check author firstname and lastname contains only letters
+        if (!author.getFirstName().matches("[a-zA-Z]+") || !author.getLastName().matches("[a-zA-Z]+")) {
+            return "Author firstname and lastname should contain only letters";
+        }
+
+        try {
+            //Save author
+            authorRepository.save(author);
+        } catch (Exception e) {
+            logger.severe("Author not saved : " + e.getMessage());
+            return "Author not saved : " + e.getMessage();
+        }
+
+        //check if author is saved
+        if (authorRepository.existsById(author.getId())) {
+            logger.info("Author saved successfully");
+            return "Author saved successfully";
         } else {
-
-            //Check author firstname and lastname contains only letters
-            if (!author.getFirstName().matches("[a-zA-Z]+") || !author.getLastName().matches("[a-zA-Z]+")) {
-                return "Author firstname and lastname should contain only letters";
-            }
-
-            try {
-                //Save author
-                authorRepository.save(author);
-            } catch (Exception e) {
-                logger.severe("Author not saved : " + e.getMessage());
-                return "Author not saved : " + e.getMessage();
-            }
-
-            //check if author is saved
-            if (authorRepository.existsById(author.getId())) {
-                logger.info("Author saved successfully");
-                return "Author saved successfully";
-            } else {
-                logger.severe("Author not saved");
-                return "Author not saved";
-            }
-
+            logger.severe("Author not saved");
+            return "Author not saved";
         }
 
     }
@@ -73,12 +79,20 @@ public class AuthorAdapterImpl implements AuthorAdapter {
     }
 
     @Override
-    public String updateAuthorById(Long id, Author author) {
+    public String updateAuthorById(Long id, AuthorDto authorDto) {
+
         //Check if author is null
-        if (author == null) {
+        if (authorDto == null) {
             logger.severe("Author should not be null");
             return "Author should not be null";
         } else {
+
+            //Set authorDto to author
+            Author author = new Author();
+            author.setFirstName(authorDto.getFirstName());
+            author.setLastName(authorDto.getLastName());
+            author.setEmail(authorDto.getEmail());
+            author.setContactNumber(authorDto.getContactNumber());
 
             //Check author firstname and lastname contains only letters
             if (!author.getFirstName().matches("[a-zA-Z]+") || !author.getLastName().matches("[a-zA-Z]+")) {
