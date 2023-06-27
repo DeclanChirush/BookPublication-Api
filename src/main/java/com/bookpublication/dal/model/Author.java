@@ -2,11 +2,10 @@ package com.bookpublication.dal.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is used to represent the Author entity.
@@ -30,6 +29,6 @@ public class Author {
 
     private String contactNumber;
 
-    @ManyToMany(mappedBy = "authors")
-    private Set<Book> books = new HashSet<>();
+    @OneToMany(mappedBy = "author")
+    private List<Book> books = new ArrayList<>();
 }
