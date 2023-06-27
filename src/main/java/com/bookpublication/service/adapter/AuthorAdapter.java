@@ -1,6 +1,7 @@
 package com.bookpublication.service.adapter;
 
 import com.bookpublication.dal.model.Author;
+import com.bookpublication.dto.AuthorDto;
 
 import java.util.List;
 
@@ -11,11 +12,11 @@ import java.util.List;
  */
 
 public interface AuthorAdapter {
-    String saveAuthor(Author author);
+    String saveAuthor(AuthorDto authorDto);
 
     Author getAuthor(Long id);
 
-    String updateAuthorById(Long id, Author author);
+    String updateAuthorById(Long id, AuthorDto authorDto);
 
     String deleteAuthor(Long id);
 
