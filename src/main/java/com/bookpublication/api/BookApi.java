@@ -6,6 +6,8 @@ import com.bookpublication.service.adapter.BookAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * This class is the BookApi class
  * It is used to perform CRUD operations on the Book entity
@@ -35,5 +37,14 @@ public class BookApi {
         return bookAdapter.updateBookById(id, bookDto);
     }
 
+    //Delete a book
+    public String deleteBook(Long id){
+        return bookAdapter.deleteBook(id);
+    }
+
+    //Get all books
+    public List<Book> getAllBooks(){
+        return bookAdapter.getAllBooks();
+    }
 
 }

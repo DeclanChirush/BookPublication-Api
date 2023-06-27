@@ -99,11 +99,26 @@ public class BookAdapterImpl implements BookAdapter {
 
     @Override
     public String deleteBook(Long id) {
-        return null;
+
+        //check if book exists
+        if (!bookRepository.existsById(id)) {
+            return "Book not found";
+        }else{
+            //Retrieve the book entity using the id from the request
+            Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
+
+            try {
+                //Delete the book entity
+                bookRepository.delete(book);
+            } catch (Exception e) {
+                return "Error deleting book";
+            }
+        }
+        return "Book deleted successfully";
     }
 
     @Override
     public List<Book> getAllBooks() {
-        return null;
+        return bookRepository.findAll();
     }
 }

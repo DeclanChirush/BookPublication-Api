@@ -41,4 +41,16 @@ public class BookController {
     public ResponseEntity updateBookById(@PathVariable Long id, @RequestBody BookDto bookDto) {
         return ResponseEntity.ok(bookApi.updateBookById(id, bookDto));
     }
+
+    //Delete book by id
+    @DeleteMapping("/deleteBookById/{id}")
+    public ResponseEntity deleteBook(@PathVariable Long id) {
+        return ResponseEntity.ok(bookApi.deleteBook(id));
+    }
+
+    //Get all books
+    @GetMapping("/getAllBooks")
+    public ResponseEntity getAllBooks() {
+        return ResponseEntity.ok(bookApi.getAllBooks());
+    }
 }
