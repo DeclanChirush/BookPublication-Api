@@ -53,4 +53,10 @@ public class BookController {
     public ResponseEntity getAllBooks() {
         return ResponseEntity.ok(bookApi.getAllBooks());
     }
+
+    //Get book by isbn
+    @GetMapping("/getBookByIsbn/{isbn}")
+    public ResponseEntity getBookByIsbn(@PathVariable String isbn) {
+        return ResponseEntity.ok(bookApi.getBookByIsbn(isbn));
+    }
 }

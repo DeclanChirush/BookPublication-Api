@@ -47,4 +47,9 @@ public class BookApi {
         return bookAdapter.getAllBooks();
     }
 
+    //Get book by isbn
+    public Book getBookByIsbn(String isbn){
+        return bookAdapter.getBookByIsbn(isbn);
+    }
+
 }

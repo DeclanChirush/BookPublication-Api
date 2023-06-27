@@ -71,7 +71,7 @@ public class BookAdapterImpl implements BookAdapter {
            return bookRepository.findById(id).get();
          }else{
            logger.severe("Book not found");
-           throw new RuntimeException("Book not found");
+           return null;
        }
     }
 
@@ -133,5 +133,19 @@ public class BookAdapterImpl implements BookAdapter {
     public List<Book> getAllBooks() {
         logger.info("Books retrieved successfully");
         return bookRepository.findAll();
+    }
+
+    @Override
+    public Book getBookByIsbn(String isbn) {
+        //If book is not found, show error message
+        if(bookRepository.existsByIsbn(isbn)){
+            logger.info("Book found");
+            //Retrieve the book entity using the isbn from the request
+            return bookRepository.findByIsbn(isbn);
+
+        }else{
+            logger.severe("Book not found");
+            return null;
+        }
     }
 }

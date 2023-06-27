@@ -17,4 +17,5 @@ public interface BookAdapter {
      String updateBookById(Long id, BookDto bookDto);
      String deleteBook(Long id);
      List<Book> getAllBooks();
+     Book getBookByIsbn(String isbn);
 }
