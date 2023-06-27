@@ -1,9 +1,10 @@
 package com.bookpublication.service.adapterImpl;
 
 import com.bookpublication.dal.model.Author;
-import com.bookpublication.dal.repository.AuthorRepository;
+import com.bookpublication.dal.repository.AuthorRepository;import com.bookpublication.dal.repository.BookRepository;
 import com.bookpublication.dto.AuthorDto;
 import com.bookpublication.service.adapter.AuthorAdapter;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,9 +23,12 @@ public class AuthorAdapterImpl implements AuthorAdapter {
     private static final Logger logger = Logger.getLogger(AuthorAdapterImpl.class.getName());
     public final AuthorRepository authorRepository;
 
+    private final BookRepository bookRepository;
+
     @Autowired
-    public AuthorAdapterImpl(AuthorRepository authorRepository) {
+    public AuthorAdapterImpl(AuthorRepository authorRepository, BookRepository bookRepository) {
         this.authorRepository = authorRepository;
+        this.bookRepository = bookRepository;
     }
 
     @Override
@@ -122,10 +126,14 @@ public class AuthorAdapterImpl implements AuthorAdapter {
     }
 
     @Override
+    @Transactional
     public String deleteAuthor(Long id) {
         //Check if author exists
         if (authorRepository.existsById(id)) {
             try {
+                //Delete associated all books first
+                bookRepository.deleteByAuthorId(id);
+
                 //Delete author
                 authorRepository.deleteById(id);
                 logger.info("Author deleted successfully");
@@ -134,11 +142,12 @@ public class AuthorAdapterImpl implements AuthorAdapter {
                 return "Author not deleted : " + e.getMessage();
             }
 
+            return "Author deleted successfully";
+
         } else {
             logger.severe("Author not found");
             return "Author not found";
         }
-        return "Author not found";
     }
 
     @Override
