@@ -52,4 +52,19 @@ public class BookApi {
         return bookAdapter.getBookByIsbn(isbn);
     }
 
+    //Add like count
+    public String addLikeCount(Long id){
+        return bookAdapter.addLikeCount(id);
+    }
+
+    //Remove like count
+    public String removeLikeCount(Long id){
+        return bookAdapter.removeLikeCount(id);
+    }
+
+    //Get like count
+    public int getLikeCount(Long id){
+        return bookAdapter.getLikeCount(id);
+    }
+
 }
