@@ -28,7 +28,7 @@ Following these steps will allow you to successfully run the project. Make sure 
 The following assumptions are made for the purpose of this project:
 
 1. Each book is assigned to a single category.
-2. Every book is written by one author.
+2. A book is written by one author.
 3. An author may have multiple books.
 4. The available categories include, but are not limited to:
     - Romance
