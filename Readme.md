@@ -19,6 +19,11 @@ To run the project, follow these steps:
    ```
    Replace `root` with your actual MySQL username and password.
 6. Run the 'BookPublicationApplication' class in your IDE. This class serves as the entry point of the application.
+7. Server runs on port 8080 by default. You can change this by updating the 'server.port' property in the 'application.properties' file. For example:
+   ```
+   server.port=8081
+   ```
+   Replace `8081` with your desired port number.(Also update the port number in the postman collection)
 
 Following these steps will allow you to successfully run the project. Make sure you have the necessary dependencies and configurations in place for a smooth execution.
 
