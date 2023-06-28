@@ -1,6 +1,7 @@
 package com.bookpublication.service.adapterImpl;
 
 import com.bookpublication.dal.model.Author;
+import com.bookpublication.dal.model.Book;
 import com.bookpublication.dal.repository.AuthorRepository;import com.bookpublication.dal.repository.BookRepository;
 import com.bookpublication.dto.AuthorDto;
 import com.bookpublication.service.adapter.AuthorAdapter;
@@ -155,4 +156,37 @@ public class AuthorAdapterImpl implements AuthorAdapter {
         logger.info("Authors found");
         return authorRepository.findAll();
     }
+
+    @Override
+    public void generateLikeCountReport() {
+
+        //Get all authors
+        List<Author> authors = authorRepository.findAll();
+
+        //Check if authors is empty
+        if (authors.isEmpty()) {
+            logger.severe("No authors found");
+            return;
+        }
+
+        //Iterate through authors
+        for (Author author : authors) {
+
+                //Get all books by author
+                List<Book> books = bookRepository.findByAuthorId(author.getId());
+
+                //Iterate through books
+                for (Book book : books) {
+
+                    //Get book likes
+                    int likes = book.getLikeCount();
+
+                    //print logger
+                    logger.info("Author : " + author.getFirstName() + " " + author.getLastName() + ", Book : " + book.getTitle() + ", Likes : " + likes);
+                }
+
+        }
+    }
+
+
 }
