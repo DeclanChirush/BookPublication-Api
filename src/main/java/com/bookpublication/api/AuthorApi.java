@@ -4,6 +4,8 @@ import com.bookpublication.dal.model.Author;
 import com.bookpublication.dto.AuthorDto;
 import com.bookpublication.service.adapter.AuthorAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
  *
  */
 @Service
+@EnableScheduling
 public class AuthorApi{
 
     private final AuthorAdapter authorAdapter;
@@ -48,4 +51,9 @@ public class AuthorApi{
         return authorAdapter.getAllAuthors();
     }
 
+    //Generate like count report
+    @Scheduled(fixedRate = 300000) // Run every 5 minutes (300,000 milliseconds)
+    public void generateLikeCountReport(){
+        authorAdapter.generateLikeCountReport();
+    }
 }
