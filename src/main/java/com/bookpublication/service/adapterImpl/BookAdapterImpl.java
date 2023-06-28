@@ -66,13 +66,13 @@ public class BookAdapterImpl implements BookAdapter {
     @Override
     public Book getBook(Long id) {
         //If book is not found, show error message
-       if(bookRepository.existsById(id)){
-           logger.info("Book found");
-           return bookRepository.findById(id).get();
-         }else{
-           logger.severe("Book not found");
-           return null;
-       }
+        if (bookRepository.existsById(id)) {
+            logger.info("Book found");
+            return bookRepository.findById(id).get();
+        } else {
+            logger.severe("Book not found");
+            return null;
+        }
     }
 
     @Override
@@ -117,7 +117,7 @@ public class BookAdapterImpl implements BookAdapter {
         if (!bookRepository.existsById(id)) {
             logger.severe("Book not found");
             return "Book not found";
-        }else{
+        } else {
             try {
                 //Delete the book entity
                 bookRepository.deleteById(id);
@@ -138,14 +138,89 @@ public class BookAdapterImpl implements BookAdapter {
     @Override
     public Book getBookByIsbn(String isbn) {
         //If book is not found, show error message
-        if(bookRepository.existsByIsbn(isbn)){
+        if (bookRepository.existsByIsbn(isbn)) {
             logger.info("Book found");
             //Retrieve the book entity using the isbn from the request
             return bookRepository.findByIsbn(isbn);
 
-        }else{
+        } else {
             logger.severe("Book not found");
             return null;
+        }
+    }
+
+    @Override
+    public String addLikeCount(Long id) {
+
+        //check if book exists
+        if (!bookRepository.existsById(id)) {
+            logger.severe("Book not found");
+            return "Book not found";
+        } else {
+            //Add like count
+            Book book = bookRepository.findById(id).get();
+            book.setLikeCount(book.getLikeCount() + 1);
+
+            try {
+                //Save the book entity
+                bookRepository.save(book);
+                logger.info("Book like count updated successfully");
+                return "Book like count updated successfully";
+            } catch (Exception e) {
+                logger.severe("Error updating book like count : " + e.getMessage());
+                return "Error updating book like count";
+            }
+        }
+
+    }
+
+    @Override
+    public String removeLikeCount(Long id) {
+        //check if book exists
+        if (!bookRepository.existsById(id)) {
+            logger.severe("Book not found");
+            return "Book not found";
+        } else {
+            //Remove like count
+            Book book = bookRepository.findById(id).get();
+
+            //Check if like count is 0
+            if(book.getLikeCount() == 0){
+                logger.severe("Book like count is already 0");
+                return "Book like count is already 0";
+            }
+
+            book.setLikeCount(book.getLikeCount() - 1);
+
+            try {
+                //Save the book entity
+                bookRepository.save(book);
+                logger.info("Book like count updated successfully");
+                return "Book like count updated successfully";
+            } catch (Exception e) {
+                logger.severe("Error updating book like count : " + e.getMessage());
+                return "Error updating book like count";
+            }
+        }
+    }
+
+    @Override
+    public int getLikeCount(Long id) {
+        //check if book exists
+        if (!bookRepository.existsById(id)) {
+            logger.severe("Book not found");
+            return 0;
+        } else {
+
+            try {
+                //Retrieve the book entity using the id from the request
+                Book book = bookRepository.findById(id).get();
+                logger.info("Book like count retrieved successfully");
+                return book.getLikeCount();
+            } catch (Exception e) {
+                logger.severe("Error retrieving book like count : " + e.getMessage());
+                return 0;
+            }
         }
     }
 }

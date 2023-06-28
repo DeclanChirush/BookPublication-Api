@@ -59,4 +59,22 @@ public class BookController {
     public ResponseEntity getBookByIsbn(@PathVariable String isbn) {
         return ResponseEntity.ok(bookApi.getBookByIsbn(isbn));
     }
+
+    //Add like count
+    @PutMapping("/addLikeCount/{id}")
+    public ResponseEntity addLikeCount(@PathVariable Long id) {
+        return ResponseEntity.ok(bookApi.addLikeCount(id));
+    }
+
+    //Remove like count
+    @PutMapping("/removeLikeCount/{id}")
+    public ResponseEntity removeLikeCount(@PathVariable Long id) {
+        return ResponseEntity.ok(bookApi.removeLikeCount(id));
+    }
+
+    //Get like count
+    @GetMapping("/getLikeCount/{id}")
+    public ResponseEntity getLikeCount(@PathVariable Long id) {
+        return ResponseEntity.ok(bookApi.getLikeCount(id));
+    }
 }

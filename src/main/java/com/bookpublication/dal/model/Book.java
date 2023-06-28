@@ -32,4 +32,6 @@ public class Book {
     @JsonIgnore // Ignore the author field during serialization
     private Author author;
 
+    private int likeCount;
+
 }

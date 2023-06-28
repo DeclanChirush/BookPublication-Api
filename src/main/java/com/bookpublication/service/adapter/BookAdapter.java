@@ -18,4 +18,10 @@ public interface BookAdapter {
      String deleteBook(Long id);
      List<Book> getAllBooks();
      Book getBookByIsbn(String isbn);
+
+     String addLikeCount(Long id);
+
+     String removeLikeCount(Long id);
+
+     int getLikeCount(Long id);
 }
