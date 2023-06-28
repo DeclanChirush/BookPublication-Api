@@ -46,6 +46,18 @@ public class BookAdapterImpl implements BookAdapter {
         book.setTitle(bookDto.getTitle());
         book.setCategory(bookDto.getCategory());
 
+        //check authorId is not null
+        if (bookDto.getAuthorId() == null) {
+            logger.severe("Author id should not be null");
+            return "Author id should not be null";
+        }
+
+        //check if authorId exists
+        if (!authorRepository.existsById(bookDto.getAuthorId())) {
+            logger.severe("Author with id " + bookDto.getAuthorId() + " does not exist");
+            return "Author with id " + bookDto.getAuthorId() + " does not exist";
+        }
+
         //Retrieve the Author entity using the authorId from the request
         Author author = authorRepository.findById(bookDto.getAuthorId()).orElseThrow(() -> new RuntimeException("Author not found"));
 
@@ -91,6 +103,18 @@ public class BookAdapterImpl implements BookAdapter {
         book.setIsbn(bookDto.getIsbn());
         book.setTitle(bookDto.getTitle());
         book.setCategory(bookDto.getCategory());
+
+        //check authorId is not null
+        if (bookDto.getAuthorId() == null) {
+            logger.severe("Author id should not be null");
+            return "Author id should not be null";
+        }
+
+        //check if authorId exists
+        if (!authorRepository.existsById(bookDto.getAuthorId())) {
+            logger.severe("Author with id " + bookDto.getAuthorId() + " does not exist");
+            return "Author with id " + bookDto.getAuthorId() + " does not exist";
+        }
 
         //Retrieve the Author entity using the authorId from the request
         Author author = authorRepository.findById(bookDto.getAuthorId()).orElseThrow(() -> new RuntimeException("Author not found"));
