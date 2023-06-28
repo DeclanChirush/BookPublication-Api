@@ -22,4 +22,6 @@ public interface AuthorAdapter {
 
     List<Author> getAllAuthors();
 
+    void generateLikeCountReport();
+
 }
